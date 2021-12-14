@@ -13,3 +13,7 @@ muxin的跨端项目
 ### imooc-muxin-server
 
 muxin的服务端项目
+
+### 备注
+https://coding.imooc.com/class/261.html
+https://www.bilibili.com/video/BV1ur4y1Q7Ft
