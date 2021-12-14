@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div>发送消息:</div>
+  <input type="text" id="content" />
+  <input type="button" value="点我发送" onclick="CHAT.chat()" />
+
+  <div>接受消息：</div>
+  <div id="receiveMsg" style="background-color: gainsboro;"></div>
+
+  <script>
+    window.CHAT = {
+      socket:null,
+      init(){
+        if(window.WebSocket){
+          CHAT.socket = new WebSocket("ws://192.168.1.6:8088/ws")
+          CHAT.socket.onopen = () => {
+            console.log("链接建立成功")
+          }
+          CHAT.socket.onclose = () => {
+            console.log("链接关闭")
+          }
+          CHAT.socket.onerror = () => {
+            console.log("发生错误");
+          }
+          CHAT.socket.onmessage = e => {
+            console.log("接收到消息: " + e.data);
+            const receiveMsg = document.querySelector("#receiveMsg")
+            const html = receiveMsg.innerHTML
+            receiveMsg.innerHTML = html + "<br />" + e.data
+          }
+        }else{
+          alert("浏览器不支持WebSocket")
+        }
+      },
+      chat(){
+        const msg = document.querySelector("#content").value
+        CHAT.socket.send(msg)
+      }
+    }
+    CHAT.init()
+  </script>
+</body>
+</html>
